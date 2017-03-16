@@ -1,0 +1,13 @@
+develop:
+  build: .
+  ports:
+    - "8000:5000"
+  env_file:
+    - .env
+  environment:
+    ENVIRONMENT: dev
+    DEBUG: "True"
+  volumes:
+    - .:/opt/flask_app/
+  command: develop
+  restart: always
