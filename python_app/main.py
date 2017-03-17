@@ -4,30 +4,30 @@ import sys
 import os
 import ee
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 print("Starting Flask Microservice. Running on ", sys.platform)
-local_system = False
 if sys.platform == 'darwin':
-    local_system = True
-    # If using a local mac, assume you can initilise using the below...
+    # If using a local mac, assume you can initilise using the below
     ee.Initialize()
 else:
-    # Else, assume you have an EE_private_key environment variable with authorisation,
+    # assume you have an EE_private_key env. variable with authorisation
     service_account = os.environ['EE_USER']
     print(service_account)
-    credentials = ee.ServiceAccountCredentials(service_account, './privatekey.pem')
+    credentials = ee.ServiceAccountCredentials(service_account,BASE_DIR +'/privatekey.pem')
     ee.Initialize(credentials, 'https://earthengine.googleapis.com')
 
 app = Flask(__name__)
 api = Api(app, version='1.0', title='Minimum API example',
-    description='A simple start point to build a microservice in flask, using Earth Engine, with automatic Swagger UI',
-)
+    description='A simple start point to build a microservice in flask, using '\
+    'Earth Engine, with automatic Swagger UI',)
 
-ns = api.namespace('Endpoints', description='Operations and supporting information')
+ns = api.namespace('Endpoints',
+                   description='Operations and supporting information')
 
 todo = api.model('Todo', {
     'id': fields.Integer(readOnly=True, description='The task unique identifier'),
-    'task': fields.String(required=True, description='The task details')
-})
+    'task': fields.String(required=True, description='The task details')})
 
 
 class TodoDAO(object):
@@ -57,6 +57,7 @@ class TodoDAO(object):
         self.todos.remove(todo)
 
 
+# Create an instance of the object which uses app methods
 DAO = TodoDAO()
 DAO.create({'task': 'Build an API'})
 DAO.create({'task': 'Workin in the Code mine'})
@@ -106,4 +107,4 @@ class Todo(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host= '0.0.0.0', port=int(os.getenv('PORT')), debug=True)

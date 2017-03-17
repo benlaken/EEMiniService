@@ -8,6 +8,6 @@ develop:
     ENVIRONMENT: dev
     DEBUG: "True"
   volumes:
-    - .:/opt/flask_app/
+    - ./python_app:/opt/flask_app/python_app/
   command: develop
   restart: always
