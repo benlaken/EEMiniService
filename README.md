@@ -39,3 +39,11 @@ Then use the id to run `docker exec`:
 ```
 docker exec -it ea58c240878c bash
 ```
+
+### Environment variables
+
+* DEBUG= Boolean
+* PORT= port that flask app will try and run on e.g. 5000
+* EE_USER= Earth Engine user account info
+* EE_PRIVATE_KEY=Earth engine private key from which to generate a PEM
+* EE_AUTH_TYPE=nonlocal (set to local if you want to authenticte via locally stored Earth Engine credentials)
