@@ -7,14 +7,17 @@ import ee
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 print("Starting Flask Microservice. Running on ", sys.platform)
-if sys.platform == 'darwin':
-    # If using a local mac, assume you can initilise using the below
+try:
+    local_ee_auth = os.environ['EE_AUTH_TYPE']
+except:
+    local_ee_auth = None
+
+if local_ee_auth == 'local':
     ee.Initialize()
 else:
-    # assume you have an EE_private_key env. variable with authorisation
+    # else assume you have an EE_private_key env. variable with authorisation
     service_account = os.environ['EE_USER']
-    print(service_account)
-    credentials = ee.ServiceAccountCredentials(service_account,BASE_DIR +'/privatekey.pem')
+    credentials = ee.ServiceAccountCredentials(service_account, BASE_DIR +'/privatekey.pem')
     ee.Initialize(credentials, 'https://earthengine.googleapis.com')
 
 app = Flask(__name__)
