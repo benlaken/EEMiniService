@@ -6,3 +6,4 @@ flask-restplus==0.10.1
 pytest==3.0.7
 gunicorn==19.7.0
 gevent==1.2.1
+flask_cors==3.0.2

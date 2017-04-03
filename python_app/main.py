@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
+from flask_cors import CORS
 import sys
 import os
 import ee
@@ -21,6 +22,7 @@ else:
     ee.Initialize(credentials, 'https://earthengine.googleapis.com')
 
 app = Flask(__name__)
+cors = CORS(app)
 api = Api(app, version='1.0', title='Minimum API example',
     description='A simple start point to build a microservice in flask, using '\
     'Earth Engine, with automatic Swagger UI',)
